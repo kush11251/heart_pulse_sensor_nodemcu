@@ -14,10 +14,6 @@ int ledPin = 2;
 const char *ssid = "Kush";
 const char *pass = "kushkush";
 
-int PulseSensorPurplePin = A0;
-int Signal;
-int Threshold = 550;
-
 FirebaseData fbdo;
 
 FirebaseAuth auth;
@@ -29,6 +25,12 @@ bool signupOK = false;
 
 float value1;
 int value2;
+
+int age;
+String gender;
+String uname;
+int pulse;
+String userId;
 
 WiFiClient client;
 
@@ -68,7 +70,7 @@ void setup() {
   config.database_url = DATABASE_URL;
 
   if (Firebase.signUp(&config, &auth, "", "")) {
-    Serial.println("ok");
+    Serial.println("Authenticated With Firebase");
     signupOK = true;
   }
   else {
@@ -79,21 +81,11 @@ void setup() {
 
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
-
 }
 
 // the loop function runs over and over again forever
 void loop() {
-  
-  
-  if(Firebase.ready() && signupOK) {
-    Signal = analogRead(PulseSensorPurplePin);
-    Serial.println(Signal);
-    delay(1000);
-    Firebase.RTDB.setInt(&fbdo, "Pulse", Signal/10 + 20);
-  }
-  
-  //
+
   //  digitalWrite(ledPin, HIGH);   // turn the LED on (HIGH is the voltage level)
   //  //Serial.println("High");
   //  delay(1000);               // wait for a second
@@ -101,38 +93,45 @@ void loop() {
   //  //Serial.println("Low");
   //  delay(1000);               // wait for a second
 
+  if(Firebase.ready() && signupOK) {
+    Firebase.RTDB.getInt(&fbdo, "Pulse");
+    pulse = fbdo.intData();
+
+    Firebase.RTDB.getInt(&fbdo, "Age");
+    age = fbdo.intData();
+    
+    Serial.println();
+    Serial.println("AGE: " + String(age));
+    Serial.println("PULSE: " + String(pulse));
+  }
+
   /*if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)) {
     sendDataPrevMillis = millis();
+    if (Firebase.RTDB.getInt(&fbdo, "Polution-Index/CO2")) {
+      if (fbdo.dataType() == "int") {
+        value2 = fbdo.intData();
 
-    value1 = random(0, 100) + 0.1 * random(0, 100) + 0.01 * random(0, 100);
-    value2 = count;
-    // Write an Int number on the database path test/int
-    if (Firebase.RTDB.setInt(&fbdo, "Polution-Index/CO2", value2))
-    {
-      Serial.println();
-      Serial.println("PASSED");
-      Serial.println("PATH: " + fbdo.dataPath());
-      Serial.println("TYPE: " + fbdo.dataType());
-      Serial.println("VALUE: " + String(value2));
+        Serial.println();
+        Serial.println("PATH: " + fbdo.dataPath());
+        Serial.println("TYPE: " + fbdo.dataType());
+        Serial.println("VALUE: " + String(value2));
+      }
     }
     else {
-      Serial.println("FAILED");
-      Serial.println("REASON: " + fbdo.errorReason());
+      Serial.println(fbdo.errorReason());
     }
-    count++;
 
-    // Write an Float number on the database path test/float
-    if (Firebase.RTDB.setFloat(&fbdo, "Polution-Index/CO", value1))
-    {
-      Serial.println();
-      Serial.println("PASSED");
-      Serial.println("PATH: " + fbdo.dataPath());
-      Serial.println("TYPE: " + fbdo.dataType());
-      Serial.println("VALUE: " + String(value1));
+    if (Firebase.RTDB.getFloat(&fbdo, "Polution-Index/CO")) {
+      if (fbdo.dataType() == "float") {
+        value1 = fbdo.floatData();
+        Serial.println();
+        Serial.println("PATH: " + fbdo.dataPath());
+        Serial.println("TYPE: " + fbdo.dataType());
+        Serial.println("VALUE: " + String(value1));
+      }
     }
     else {
-      Serial.println("FAILED");
-      Serial.println("REASON: " + fbdo.errorReason());
+      Serial.println(fbdo.errorReason());
     }
   }*/
 
