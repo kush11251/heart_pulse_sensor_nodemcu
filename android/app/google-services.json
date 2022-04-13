@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "685384135996",
+    "project_id": "pulse-node-mcu",
+    "storage_bucket": "pulse-node-mcu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685384135996:android:80cc3022c930e3b9485a39",
+        "android_client_info": {
+          "package_name": "com.example.heart_pulse_sensor_nodemcu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "685384135996-hl1dvefr2grhtdkbcvo1g0p8s8dcsj77.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnpQaYQrSxis9SPSoQjm4Gv__vMfZWfjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "685384135996-hl1dvefr2grhtdkbcvo1g0p8s8dcsj77.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
